@@ -1,6 +1,3 @@
-
-
-from bs4 import BeautifulSoup
 from PyQt4.QtGui import *  
 from PyQt4.QtCore import *  
 from PyQt4.QtWebKit import *  
@@ -8,58 +5,58 @@ from lxml import html
 from selenium import webdriver
 import random
 import time
-
-driver = webdriver.PhantomJS()
-
-url="https://statesummaries.ncics.org/co"
-#url="http://writing.upenn.edu/pennsound/x/Yau.php"
-
-driver.get(url) #This does the magic. Loads everything.
-page_html=driver.page_source
+#from bs4 import BeautifulSoup
 
 
-starting_url=driver.current_url
-home_handle=driver.current_window_handle
+url="https://statesummaries.ncics.org/co"   ## Set URL for page to be analyzed.
 
 
-nodes = driver.find_elements_by_xpath('//*')
+driver = webdriver.PhantomJS()  ## Initializing headless browser.
+driver.get(url)                 ## Loads page in browser.
+page_source=driver.page_source  ## Assigns page source to a variable (helpful for analyzing static pages containing elements rendered by JavaScript, though not used below.)
 
-print(len(nodes))
+starting_url=driver.current_url               ## Gets current URL in format used by Selenium.
+home_handle=driver.current_window_handle      ## Gets ID for current browser window.
 
-new_urls=[]
+nodes = driver.find_elements_by_xpath('//*')  ## Gets list of all nodes in DOM.
+print(len(nodes))                             ## Prints number of nodes for reference.
 
+new_urls=[]                     ## Our master list of link URLs
 
 for i in range(len(nodes)):
     print(i)
-    nodes = driver.find_elements_by_xpath('//*')
-    node = nodes[-i]                               ## counting backwards from the end
+    nodes = driver.find_elements_by_xpath('//*')   ## Gets list of all nodes in DOM. Doing this at each step in case we navigated away from page last time. Assumes nodes and order remain identical throughout (i.e., that the page doesn't change).
+    node = nodes[i]                                ## Node we'll be working with in this step.
     try: 
-        link_url=node.get_attribute('href')
+        link_url=node.get_attribute('href')        ## Grabs href link if present
         if link_url!=None:
             new_urls.append(link_url)
-    except: print("oops")
+    except: pass                                   ## Ignoring errors here and below 
     try:
-        node.click()
-    except: print("oops")
-    updated_nodes = driver.find_elements_by_xpath('//*')
-    new_nodes=list(set(updated_nodes)-set(nodes))     ## If new nodes appear following
-    for new_node in new_nodes:                        ## click, we check them for href
-        try:                                          ## links but don't click the nodes.
-            link_url=new_node.get_attribute('href')
-            if link_url!=None:
-                new_urls.append(link_url)
-        except: pass
-    if driver.current_url!=starting_url:
-        print(driver.current_url)
-        new_urls.append(driver.current_url)
-        driver.back()
-        driver.switch_to_window(home_handle)
-    print(driver.current_url)
-    time.sleep((0.1*random.random()))
+        node.click()                               ## Clicks on node in browser
+    except: pass                                   ## Clicking an invisible node throws an error.
+    if driver.current_url!=starting_url:           ## If click leads to new URL,
+        print(driver.current_url)                  ## print it,
+        new_urls.append(driver.current_url)        ## add to URL list,
+        driver.back()                              ## and navigate back to starting page.
+        driver.switch_to_window(home_handle)       ## Just in case page loaded in new window.
+    else:                                                      ## If click doesn't lead to new URL,
+        updated_nodes = driver.find_elements_by_xpath('//*')   ## get list of nodes in current DOM. 
+        new_nodes=list(set(updated_nodes)-set(nodes))          ## Identify list of newly created nodes.
+        for new_node in new_nodes:
+            try:                                               ## For each new node,
+                link_url=new_node.get_attribute('href')        ## check for href links and add to URL list.
+                if link_url!=None:
+                    new_urls.append(link_url)                  ## Unlike master node list, we don't click on the newly created nodes.
+            except: pass
+    print(driver.current_url)           ## Feedback to confirm we're still on the page we started with.
+    time.sleep((0.1*random.random()))   ## Random sleep between 0 and 0.1 seconds to avoid overloading server.
     i+=1
 
 
-for item in sorted(list(set(new_urls))):
+new_urls = sorted(list(set(new_urls)))  ## Removes duplicate links and alphabetizes list
+
+for item in new_urls:                   ## Prints the result
     print(item)
 
 
