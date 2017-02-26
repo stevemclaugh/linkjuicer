@@ -1,6 +1,6 @@
 # Link Juicer
 
-A Python script for extracting many (ideally all) links from a given web page, including pages with dynamic JavaScript elements.
+A Python script for extracting many (ideally all) links from a given web page, including ones with dynamic JavaScript content.
 
 Run the following commands to install dependencies (using Homebrew package manager on macOS):
 
@@ -11,5 +11,4 @@ Next, update Pip and install Python dependencies:
 
     pip install --upgrade pip
     pip install --upgrade PyQt4 selenium lxml
-
 
