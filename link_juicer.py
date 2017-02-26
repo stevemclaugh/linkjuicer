@@ -8,7 +8,7 @@ import time
 #from bs4 import BeautifulSoup
 
 
-url="https://statesummaries.ncics.org/co"   ## Set URL for page to be analyzed.
+url="https://statesummaries.ncics.org"   ## Set URL for page to be analyzed.
 
 
 driver = webdriver.PhantomJS()  ## Initializing headless browser.
@@ -23,9 +23,13 @@ print(len(nodes))                             ## Prints number of nodes for refe
 
 new_urls=[]                     ## Our master list of link URLs
 
+page_changed = False
+
 for i in range(len(nodes)):
     print(i)
-    nodes = driver.find_elements_by_xpath('//*')   ## Gets list of all nodes in DOM. Doing this at each step in case we navigated away from page last time. Assumes nodes and order remain identical throughout (i.e., that the page doesn't change).
+    if page_changed == True:
+        nodes = driver.find_elements_by_xpath('//*')   ## Gets list of all nodes in DOM. Doing this every time we navigate away from starting page or alter the DOM. Assumes nodes and order remain identical throughout (i.e., that the starting page doesn't change over the course of analysis).
+        page_changed = False
     node = nodes[i]                                ## Node we'll be working with in this step.
     try: 
         link_url=node.get_attribute('href')        ## Grabs href link if present
@@ -40,9 +44,12 @@ for i in range(len(nodes)):
         new_urls.append(driver.current_url)        ## add to URL list,
         driver.back()                              ## and navigate back to starting page.
         driver.switch_to_window(home_handle)       ## Just in case page loaded in new window.
+        page_changed = True
     else:                                                      ## If click doesn't lead to new URL,
         updated_nodes = driver.find_elements_by_xpath('//*')   ## get list of nodes in current DOM. 
         new_nodes=list(set(updated_nodes)-set(nodes))          ## Identify list of newly created nodes.
+        if len(new_nodes)>0:
+            page_changed = True
         for new_node in new_nodes:
             try:                                               ## For each new node,
                 link_url=new_node.get_attribute('href')        ## check for href links and add to URL list.
@@ -53,13 +60,10 @@ for i in range(len(nodes)):
     time.sleep((0.1*random.random()))   ## Random sleep between 0 and 0.1 seconds to avoid overloading server.
     i+=1
 
-
 new_urls = sorted(list(set(new_urls)))  ## Removes duplicate links and alphabetizes list
 
-for item in new_urls:                   ## Prints the result
+for item in new_urls:                   ## Prints final link list
     print(item)
-
-
 
 
 
