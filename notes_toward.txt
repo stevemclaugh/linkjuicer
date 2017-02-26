@@ -1,0 +1,155 @@
+driver.find_element_by_xpath(".//input[contains(@onclick, '1 Bedroom Deluxe')]")
+
+
+
+driver.findElement(By.xpath("//a[@onclick='gotoPaymentAddressForm()']"))
+
+
+###
+
+
+# get all ID objects
+ids = driver.find_elements_by_xpath('//*[@id]')
+
+ids = driver.find_elements_by_xpath('//*[@onclick]')
+
+
+
+
+ids = driver.find_elements_by_xpath('//*[@onclick]')
+
+ids2=ids[0].find_elements_by_xpath('//*[@onclick]')
+
+ids3=ids2[0].find_elements_by_xpath('//*[@onclick]')
+
+
+
+driver.current_url
+
+
+
+
+
+
+####
+
+
+
+from bs4 import BeautifulSoup
+from PyQt4.QtGui import *  
+from PyQt4.QtCore import *  
+from PyQt4.QtWebKit import *  
+from lxml import html 
+from selenium import webdriver
+import random
+import time
+
+driver = webdriver.PhantomJS()
+
+url="https://statesummaries.ncics.org"
+
+
+driver.get(url) #This does the magic. Loads everything.
+page_html=driver.page_source
+
+
+
+
+starting_url=driver.current_url
+home_handle=driver.current_window_handle
+
+
+nodes = driver.find_elements_by_xpath('//*')
+
+random.shuffle(nodes)
+
+new_urls=[]
+
+
+script='''target="_blank"'''
+
+
+for node in nodes:
+    try:
+        driver.execute_script(script, node)
+        node.click()
+    except: print("oops")
+    if driver.current_url!=starting_url:
+        print driver.current_url
+        new_urls.append(driver.current_url)
+    print driver.current_window_handle
+    driver.switch_to_window(home_handle)
+    print driver.current_url
+    time.sleep(1+(random.random()))
+
+
+
+
+
+
+
+####
+
+
+
+from bs4 import BeautifulSoup
+from PyQt4.QtGui import *  
+from PyQt4.QtCore import *  
+from PyQt4.QtWebKit import *  
+from lxml import html 
+from selenium import webdriver
+import random
+import time
+
+driver = webdriver.PhantomJS()
+
+url="https://statesummaries.ncics.org"
+
+
+driver.get(url) #This does the magic. Loads everything.
+page_html=driver.page_source
+
+
+starting_url=driver.current_url
+home_handle=driver.current_window_handle
+
+
+nodes = driver.find_elements_by_xpath('//*')
+
+new_urls=[]
+
+
+for i in range(len(nodes)):
+    print i
+    nodes = driver.find_elements_by_xpath('//*')
+    node = nodes[-i]                               ## counting backwards from the end
+    try:
+        node.click()
+    except: print("oops")
+    if driver.current_url!=starting_url:
+        print driver.current_url
+        new_urls.append(driver.current_url)
+        driver.back()
+        driver.switch_to_window(home_handle)
+    print driver.current_url
+    time.sleep((0.1*random.random()))
+    i+=1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

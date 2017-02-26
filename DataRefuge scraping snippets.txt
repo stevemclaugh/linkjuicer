@@ -1,0 +1,32 @@
+import urllib2
+from bs4 import BeautifulSoup
+
+url="https://statesummaries.ncics.org"
+
+page=urllib2.urlopen(url).read().decode('utf-8')
+soup=BeautifulSoup(page,'lxml')
+
+for link in soup.findAll('a'):
+        print(link.get('href'))
+
+
+
+
+from bs4 import BeautifulSoup
+from PyQt4.QtGui import *  
+from PyQt4.QtCore import *  
+from PyQt4.QtWebKit import *  
+from lxml import html 
+from selenium import webdriver
+
+driver = webdriver.PhantomJS()
+
+def js_to_html(url):
+    driver.get(url) #This does the magic. Loads everything.
+    page_html=driver.page_source
+    return page_html
+
+url="https://statesummaries.ncics.org"
+page_html=js_to_html(url)
+
+
