@@ -7,9 +7,7 @@ import random
 import time
 #from bs4 import BeautifulSoup
 
-
 url="https://statesummaries.ncics.org"   ## Set URL for page to be analyzed.
-
 
 driver = webdriver.PhantomJS()  ## Initializing headless browser.
 driver.get(url)                 ## Loads page in browser.
@@ -21,9 +19,9 @@ home_handle=driver.current_window_handle      ## Gets ID for current browser win
 nodes = driver.find_elements_by_xpath('//*')  ## Gets list of all nodes in DOM.
 print(len(nodes))                             ## Prints number of nodes for reference.
 
-new_urls=[]                     ## Our master list of link URLs
+new_urls=[]                     ## Running list of identified links
 
-page_changed = False
+page_changed = False            ## For keeping track of whether the DOM has changed in a given step
 
 for i in range(len(nodes)):
     print(i)
@@ -64,8 +62,5 @@ new_urls = sorted(list(set(new_urls)))  ## Removes duplicate links and alphabeti
 
 for item in new_urls:                   ## Prints final link list
     print(item)
-
-
-
 
 
