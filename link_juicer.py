@@ -7,7 +7,7 @@ import random
 import time
 #from bs4 import BeautifulSoup
 
-url="https://statesummaries.ncics.org"   ## Set URL for page to be analyzed.
+url="https://statesummaries.ncics.org/co"   ## Set URL for page to be analyzed.
 
 driver = webdriver.PhantomJS()  ## Initializing headless browser.
 driver.get(url)                 ## Loads page in browser.
