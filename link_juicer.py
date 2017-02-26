@@ -59,7 +59,7 @@ for i in range(len(nodes)):
     i+=1
 
 
-for item in list(set(new_urls)):
+for item in sorted(list(set(new_urls))):
     print(item)
 
 
