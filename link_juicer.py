@@ -12,7 +12,7 @@ import time
 driver = webdriver.PhantomJS()
 
 url="https://statesummaries.ncics.org/co"
-url="http://www.stephenmclaughlin.net/podcasts/neurotribes/"
+#url="http://writing.upenn.edu/pennsound/x/Yau.php"
 
 driver.get(url) #This does the magic. Loads everything.
 page_html=driver.page_source
@@ -24,11 +24,13 @@ home_handle=driver.current_window_handle
 
 nodes = driver.find_elements_by_xpath('//*')
 
+print(len(nodes))
+
 new_urls=[]
 
 
 for i in range(len(nodes)):
-    print i
+    print(i)
     nodes = driver.find_elements_by_xpath('//*')
     node = nodes[-i]                               ## counting backwards from the end
     try: 
@@ -39,6 +41,14 @@ for i in range(len(nodes)):
     try:
         node.click()
     except: print("oops")
+    updated_nodes = driver.find_elements_by_xpath('//*')
+    new_nodes=list(set(updated_nodes)-set(nodes))     ## If new nodes appear following
+    for new_node in new_nodes:                        ## click, we check them for href
+        try:                                          ## links but don't click the nodes.
+            link_url=new_node.get_attribute('href')
+            if link_url!=None:
+                new_urls.append(link_url)
+        except: pass
     if driver.current_url!=starting_url:
         print(driver.current_url)
         new_urls.append(driver.current_url)
@@ -49,7 +59,7 @@ for i in range(len(nodes)):
     i+=1
 
 
-for item in new_urls:
+for item in list(set(new_urls)):
     print(item)
 
 
