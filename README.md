@@ -5,10 +5,10 @@ A Python script for extracting many (ideally all) links from a given web page, i
 Run the following commands to install dependencies (using Homebrew package manager on macOS):
 
     brew update
-    brew install pyqt qt sip brew install phantomjs
+    brew install sip phantomjs
 
 Next, update Pip and install Python dependencies:
 
     pip install --upgrade pip
-    pip install --upgrade PyQt4 selenium lxml
+    pip install --upgrade selenium lxml
 
