@@ -1,11 +1,7 @@
-from PyQt4.QtGui import *  
-from PyQt4.QtCore import *  
-from PyQt4.QtWebKit import *  
 from lxml import html 
 from selenium import webdriver
 import random
 import time
-#from bs4 import BeautifulSoup
 
 url="https://statesummaries.ncics.org/co"   ## Set URL for page to be analyzed.
 
