@@ -2,13 +2,19 @@
 
 A Python script for extracting many (ideally all) links from a given web page, including ones with dynamic JavaScript content.
 
-Run the following commands to install dependencies (using Homebrew package manager on macOS):
+Install dependencies on macOS using Homebrew:
 
     brew update
     brew install sip phantomjs
 
-Next, update Pip and install Python dependencies:
+Install dependencies on Ubuntu (etc.):
 
-    pip install --upgrade pip
-    pip install --upgrade selenium lxml
+    apt upgrade
+    apt install nodejs-legacy npm
+    sudo npm install phantomjs-prebuilt
+
+Next, install Python dependencies:
+
+    pip install -U pip
+    pip install -U selenium lxml
 
