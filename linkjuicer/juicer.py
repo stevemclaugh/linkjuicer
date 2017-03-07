@@ -11,8 +11,8 @@ from interfaceutils import UniqueFileWrite
 
 # User-editable options
 
-inputurl = "https://statesummaries.ncics.org/co"   ## Set URL for page to be analyzed.
-outfileName = "urls.txt"
+inputurl = "https://statesummaries.ncics.org/co" # The URL to be analyzed
+outfileName = "urls.txt"      # The file to output the resulting URLs to
 
 ################################################################################
 ### Users: do not edit below this line unless you know what you're doing! ######
