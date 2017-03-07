@@ -57,4 +57,4 @@ class UniqueFileWrite(object):
 
     def update_file_and_flush(self,iterable):
         self.update_file(iterable)
-        self.inFile.flush()
+        self.fileObject.flush()

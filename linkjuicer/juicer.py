@@ -13,6 +13,8 @@ from interfaceutils import UniqueFileWrite
 
 inputurl = "https://statesummaries.ncics.org/co" # The URL to be analyzed
 outfileName = "urls.txt"      # The file to output the resulting URLs to
+logfileName = "juicer.log"    # The file to log info/debugging traces to
+loggingLevel = logging.INFO   # Valid values: INFO, DEBUG, WARNING, ERROR
 
 ################################################################################
 ### Users: do not edit below this line unless you know what you're doing! ######
@@ -144,6 +146,6 @@ while the procedure is running. Please be patient!\n""")
         progressBar.done()
 
 if __name__ == "__main__":
-    logging.basicConfig(filename='myapp.log', level=logging.INFO)
+    logging.basicConfig(filename=logfileName, level=logging.INFO)
     with open(outfileName,'w') as outF:
         get_links_from_url(inputurl, outF, displayProgress=True)
