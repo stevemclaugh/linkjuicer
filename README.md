@@ -1,4 +1,7 @@
-# Link Juicer
+Link Juicer
+===========
+
+![](https://travis-ci.org/chipbuster/link-juicer.svg?branch=master)
 
 A Python script for extracting many (ideally all) links from a given web page, including those with dynamic JavaScript content.
 
